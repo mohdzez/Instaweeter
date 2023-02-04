@@ -10,16 +10,16 @@ import morgan from "morgan";
 // Native
 import path from "path";
 import { fileURLToPath } from "url";
-
-// middleware
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-dotenv.config();
-
 // custom
 import { register } from "./controllers/auth.js";
+import authRoutes from "./routes/auth.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// middleware
 const app = express();
+dotenv.config();
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
@@ -40,8 +40,11 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// routes
+// routes with files
 app.post("/auth/register", upload.single("picture"), register);
+
+// routes
+app.use("/auth", authRoutes);
 
 // database
 mongoose.set("strictQuery", false);
