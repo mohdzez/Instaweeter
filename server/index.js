@@ -16,6 +16,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
 
+// custom
+import { register } from "./controllers/auth.js";
+
 const app = express();
 app.use(express.json());
 app.use(helmet());
@@ -36,6 +39,9 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
+
+// routes
+app.post("/auth/register", upload.single("picture"), register);
 
 // database
 mongoose.set("strictQuery", false);
