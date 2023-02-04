@@ -52,11 +52,11 @@ export const login = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
-      return res.status(301).json({ message: "incorrect password" });
+      return res.status(400).json({ message: "incorrect password" });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    delete user.password;
 
+    delete user.password;
     res.status(200).json({ token, user });
   } catch (error) {}
 };

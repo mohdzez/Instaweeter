@@ -13,6 +13,7 @@ import { fileURLToPath } from "url";
 // custom
 import { register } from "./controllers/auth.js";
 import authRoutes from "./routes/auth.js";
+import usersRoutes from "./routes/users.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -45,6 +46,7 @@ app.post("/auth/register", upload.single("picture"), register);
 
 // routes
 app.use("/auth", authRoutes);
+app.use("/users", usersRoutes);
 
 // database
 mongoose.set("strictQuery", false);
